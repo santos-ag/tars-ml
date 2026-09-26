@@ -4,6 +4,7 @@ use petgraph::prelude::*;
 use std::fmt::Debug;
 use std::fmt::Display;
 use std::fs;
+use std::io::Result;
 
 #[derive(Clone, Debug)]
 pub struct NetGraph<T> {
@@ -22,7 +23,7 @@ impl<T> NetGraph<T> {
         format!("{}", Dot::new(&self.graph))
     }
 
-    pub fn save_dot(&self, path: &str) -> std::io::Result<()>
+    pub fn save_dot(&self, path: &str) -> Result<()>
     where
         T: Display,
     {

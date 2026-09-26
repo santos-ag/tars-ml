@@ -12,6 +12,8 @@ const DATA_TR: &[Data<2, 2>] = &[
     Data::new([0.9, 0.9], [0.90, 0.81]),
 ];
 
+// TODO: Hyperparameters should be on a external yaml file.
+
 fn main() {
     const LR: f32 = 2e1;
     const EPOCHS: usize = 100000;
