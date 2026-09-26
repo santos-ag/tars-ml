@@ -1,16 +1,11 @@
 Tars - Machine Learning library built from scratch!
 
+If you're on Nix-OS, try:
+nix develop
+to load the dependencies
+
 How to build and run:
 
-nix-shell
-cmake -S . -B build
-cmake --build build
-./build/tars-ml
+First, chosse one entry point at src/bin/. Example "main"
 
-or
-
-nix-shell
-./run.sh
-
-if "./run.sh" doesn't work, try:
-chmod +x run.sh
+Then, run cargo run --bin main
