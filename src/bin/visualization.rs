@@ -1,7 +1,30 @@
+use petgraph::dot::{Config, Dot};
+use petgraph::{Graph, graph::UnGraph};
+use std::process::Command;
 use tars::view::plot::*;
 
 fn main() {
-    let g = NetGraph::new(vec![1, 2, 3]);
-    g.plot();
-    println!("{:?}", g.nodes);
+    println!("Hello from visualization module!");
+
+    let mut graph = UnGraph::<String, f32>::new_undirected();
+
+    let input = graph.add_node("Arroz".to_string());
+    let hidden = graph.add_node("Sorvete".to_string());
+    let output = graph.add_node("Arroz Com Sorvete".to_string());
+
+    graph.add_edge(input, hidden, 1.0);
+    graph.add_edge(hidden, output, 1.0);
+
+    let net: NetGraph<String> = NetGraph::new(graph);
+    let dot = net.to_dot();
+
+    let default_path: &str = "src/view/graph/network.dot";
+    net.save_dot(default_path);
+
+    Command::new("dot")
+        .arg("src/view/graph/network.dot")
+        .arg("-o")
+        .arg("src/view/graph/network.png")
+        .status()
+        .expect("Falha ao executar o comando 'dot'. O Graphviz está instalado e no PATH?");
 }
