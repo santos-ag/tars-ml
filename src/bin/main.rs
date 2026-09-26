@@ -1,3 +1,4 @@
+use std::error::Error;
 use tars::*;
 const DATA_TR: &[Data<2, 2>] = &[
     Data::new([0.1, 0.2], [0.15, 0.02]),
@@ -14,19 +15,19 @@ const DATA_TR: &[Data<2, 2>] = &[
 
 // TODO: Hyperparameters should be on a external yaml file.
 
-fn main() {
-    const LR: f32 = 2e1;
+fn main() -> Result<(), Box<dyn Error>> {
+    const LR: f32 = 1e1;
     const EPOCHS: usize = 100000;
-    let mut model = Sequential::new(2).linear(4).sigmoid().linear(2).sigmoid();
+    let mut model = Sequential::new(2).linear(6).sigmoid().linear(2).sigmoid();
 
     let optimizer = BGD::new(LR);
-    let mut prev_cost = cost(&model, &DATA_TR);
+    let mut prev_cost = cost(&model, DATA_TR);
     println!("epoch: 000000, cost is:{:014.8}", prev_cost);
 
-    for i in 1..EPOCHS + 1 {
-        let grad = num_grad(&model, &DATA_TR);
+    for i in 1..=EPOCHS {
+        let grad = num_grad(&model, DATA_TR);
         optimizer.step(&mut model, &grad);
-        let curr_cost = cost(&model, &DATA_TR);
+        let curr_cost = cost(&model, DATA_TR);
         if i % (EPOCHS / 20) == 0 {
             println!(
                 "epoch: {:06.0}, cost is:{:014.8}, {:07.3}% better",
@@ -48,4 +49,5 @@ fn main() {
             d.target
         );
     }
+    Ok(())
 }
