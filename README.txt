@@ -8,4 +8,5 @@ How to build and run:
 
 First, chosse one entry point at src/bin/. Example "main"
 
-Then, run cargo run --bin main
+Then, run:
+cargo run --bin main
